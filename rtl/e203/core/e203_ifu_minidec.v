@@ -29,12 +29,11 @@ module e203_ifu_minidec(
 
   //////////////////////////////////////////////////////////////
   // The IR stage to Decoder
- input  [`E203_INSTR_SIZE-1:0] instr, //to be partially decoded.
+ input  [`E203_INSTR_SIZE-1:0] instr, //by dedong. To be partially decoded.
   
   //////////////////////////////////////////////////////////////
   // The Decoded Info-Bus
-
-
+ 
   output dec_rs1en,
   output dec_rs2en,
   output [`E203_RFIDX_WIDTH-1:0] dec_rs1idx,
@@ -47,21 +46,21 @@ module e203_ifu_minidec(
   output dec_divu  ,
   output dec_remu  ,
 
-  output dec_rv32, //0: 16b instr; 1: 32b instr.
-  output dec_bjp,  //1: branch instr.
-  output dec_jal,  //1: jar instr.
-  output dec_jalr, //1: jalr instr.
-  output dec_bxx,  //1: Bxx instr(BEQ, BNE, etc.)
+  output dec_rv32, //by dedong. 0: 16b instr; 1: 32b instr.
+  output dec_bjp,  //by dedong. 1: branch instr.
+  output dec_jal,  //by dedong. 1: jar instr.
+  output dec_jalr, //by dedong. 1: jalr instr.
+  output dec_bxx,  //by dedong. 1: Bxx instr(BEQ, BNE, etc.)
   output [`E203_RFIDX_WIDTH-1:0] dec_jalr_rs1idx,
   output [`E203_XLEN-1:0] dec_bjp_imm 
 
   );
 
-  //a complete decoding module is instantiated.
+  //by dedong. A complete decoding module is instantiated.
   e203_exu_decode u_e203_exu_decode(
 
   .i_instr(instr),
-  .i_pc(`E203_PC_SIZE'b0), //unused input is pinned to 0.
+  .i_pc(`E203_PC_SIZE'b0), //by dedong. Unused input is pinned to 0.
   .i_prdt_taken(1'b0), 
   .i_muldiv_b2b(1'b0), 
 
@@ -70,7 +69,7 @@ module e203_ifu_minidec(
 
   .dbg_mode  (1'b0),
 
-  .dec_misalgn(), //unused output is floating.
+  .dec_misalgn(), //by dedong. Unused output is floating.
   .dec_buserr(),
   .dec_ilegl(),
 
