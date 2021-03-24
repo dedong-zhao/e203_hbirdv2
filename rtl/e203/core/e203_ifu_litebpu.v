@@ -107,7 +107,7 @@ module e203_ifu_litebpu(
 
   assign bpu_wait = jalr_rs1x1_dep | jalr_rs1xn_dep | rs1xn_rdrf_set;
   //by dedong. To save area, all PC computing share the same adder.
-  //by dedong. The 1st operator for PC computing. If it's a bxx instr, then the op1 is PC itself.
+  //by dedong. The 1st operator for PC computing. If it's a bxx or jal instr, then the op1 is PC itself.
  assign prdt_pc_add_op1 = (dec_bxx | dec_jal) ? pc[`E203_PC_SIZE-1:0]
                          : (dec_jalr & dec_jalr_rs1x0) ? `E203_PC_SIZE'b0
                          : (dec_jalr & dec_jalr_rs1x1) ? rf2bpu_x1[`E203_PC_SIZE-1:0]
