@@ -81,7 +81,7 @@ module e203_ifu_litebpu(
   //          jump, and not-taken if it is forward jump. The target address of JAL
   //          is calculated based on current PC value and offset
 
-  // The JAL and JALR is always jump, bxxx backward is predicted as taken  
+  // by dedong. The JAL and JALR is always jump, bxx backward is predicted as taken. 
   assign prdt_taken   = (dec_jal | dec_jalr | (dec_bxx & dec_bjp_imm[`E203_XLEN-1]));  
   // The JALR with rs1 == x1 have dependency or xN have dependency
   wire dec_jalr_rs1x0 = (dec_jalr_rs1idx == `E203_RFIDX_WIDTH'd0);
@@ -106,12 +106,13 @@ module e203_ifu_litebpu(
   assign bpu2rf_rs1_ena = rs1xn_rdrf_set;
 
   assign bpu_wait = jalr_rs1x1_dep | jalr_rs1xn_dep | rs1xn_rdrf_set;
-
-  assign prdt_pc_add_op1 = (dec_bxx | dec_jal) ? pc[`E203_PC_SIZE-1:0]
+  //by dedong. To save area, all PC computing share the same adder.
+  //by dedong. The 1st operator for PC computing. If it's a bxx instr, then the op1 is PC itself.
+ assign prdt_pc_add_op1 = (dec_bxx | dec_jal) ? pc[`E203_PC_SIZE-1:0]
                          : (dec_jalr & dec_jalr_rs1x0) ? `E203_PC_SIZE'b0
                          : (dec_jalr & dec_jalr_rs1x1) ? rf2bpu_x1[`E203_PC_SIZE-1:0]
                          : rf2bpu_rs1[`E203_PC_SIZE-1:0];  
-
+  //by dedong. The 2nd operator for PC computing is an immediate number.
   assign prdt_pc_add_op2 = dec_bjp_imm[`E203_PC_SIZE-1:0];  
 
 endmodule
