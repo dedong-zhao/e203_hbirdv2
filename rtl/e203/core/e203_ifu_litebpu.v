@@ -13,9 +13,7 @@
  See the License for the specific language governing permissions and     
  limitations under the License.                                          
  */                                                                      
-                                                                         
-                                                                         
-                                                                         
+                                                                                                                                             
 //=====================================================================
 // Designer   : Bob Hu
 //
@@ -109,9 +107,9 @@ module e203_ifu_litebpu(
   //by dedong. To save area, all PC computing share the same adder.
   //by dedong. The 1st operator for PC computing.
   assign prdt_pc_add_op1 = (dec_bxx | dec_jal) ? pc[`E203_PC_SIZE-1:0] //by dedong. If it's a bxx or jal instr, then the op1 is PC itself.
-   : (dec_jalr & dec_jalr_rs1x0) ? `E203_PC_SIZE'b0 //by dedong. If it's a jalr instr and rs1 is x0, then the op1 is 0.
-   : (dec_jalr & dec_jalr_rs1x1) ? rf2bpu_x1[`E203_PC_SIZE-1:0] //by dedong. If it's a jalr instr and rs1 is x1, x1 is directly wired from regfile.
-                         : rf2bpu_rs1[`E203_PC_SIZE-1:0];  
+                         : (dec_jalr & dec_jalr_rs1x0) ? `E203_PC_SIZE'b0 //by dedong. If it's a jalr instr and rs1 is x0, then the op1 is 0.
+                         : (dec_jalr & dec_jalr_rs1x1) ? rf2bpu_x1[`E203_PC_SIZE-1:0] //by dedong. If it's a jalr instr and rs1 is x1, x1 is directly wired from regfile.
+                         : rf2bpu_rs1[`E203_PC_SIZE-1:0]; //by dedong. if it's a jalr instr and rs1 is xn, xn will be read from the 1st port of regfile.
   //by dedong. The 2nd operator for PC computing is an immediate number.
   assign prdt_pc_add_op2 = dec_bjp_imm[`E203_PC_SIZE-1:0];  
 
