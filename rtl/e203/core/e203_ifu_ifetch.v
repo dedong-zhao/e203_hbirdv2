@@ -428,7 +428,7 @@ module e203_ifu_ifetch(
     .clk                      (clk  ) ,
     .rst_n                    (rst_n )                 
   );
-  // If the instruciton is 32bits length, increament 4, otherwise 2
+  //by dedong. If the instruciton is 32bits length, increament 4, otherwise 2
   wire [2:0] pc_incr_ofst = minidec_rv32 ? 3'd4 : 3'd2;
 
   wire [`E203_PC_SIZE-1:0] pc_nxt_pre;
